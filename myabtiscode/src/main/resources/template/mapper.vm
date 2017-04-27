@@ -1,0 +1,13 @@
+package ${sqlMeta.mapperPackage};
+
+
+
+
+public interface ${sqlMeta.daoName}Mapper {
+
+  
+    #foreach($field in $!sqlMeta.methodes)
+     public   $!{field.result.resultStr} $!{field.methodName}( $!{field.paramter.paras()} );
+    #end
+
+}

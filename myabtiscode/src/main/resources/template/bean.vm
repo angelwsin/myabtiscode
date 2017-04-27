@@ -1,0 +1,14 @@
+
+
+package ${classMeta.beanPackage};
+
+public class ${classMeta.beanName} {
+
+  
+#foreach($field in $!classMeta.columResult)
+   
+private   $!{field.columnClassName}   $!{field.columnName};
+#end
+   
+
+}
