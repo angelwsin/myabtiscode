@@ -1,9 +1,12 @@
-package ${sqlMeta.mapperPackage};
+package ${sqlMeta.getMapperImportPackage()};
+
+#foreach($field in $!sqlMeta.getMapperImportsPackage())
+import   $!{field};
+#end
 
 
 
-
-public interface ${sqlMeta.daoName}Mapper {
+public interface ${sqlMeta.getDaoName()} {
 
   
     #foreach($field in $!sqlMeta.methodes)

@@ -40,7 +40,7 @@ public class GenBeanFactory {
     public static void genBean(MapperRequest meta){
         InputStream read = Thread.currentThread().getContextClassLoader().getResourceAsStream("template/bean.vm");
         //
-       File file =   new File(meta.getDestPath()+DEFAULT+meta.getBeanPackage().replace(".", "/"));
+       File file =   new File(meta.getDestPath()+DEFAULT+meta.getBeanImportPackage().replace(".", "/"));
        System.out.println(file.getAbsolutePath());
        if(!file.exists()){
            file.mkdir();
@@ -94,14 +94,14 @@ public class GenBeanFactory {
     public static void genMapper(MapperRequest meta){
         InputStream read = Thread.currentThread().getContextClassLoader().getResourceAsStream("template/mapper.vm");
         //
-       File file =   new File(meta.getDestPath()+DEFAULT+meta.getMapperPackage().replace(".", "/"));
+       File file =   new File(meta.getDestPath()+DEFAULT+meta.getMapperImportPackage().replace(".", "/"));
        System.out.println(file.getAbsolutePath());
        if(!file.exists()){
            file.mkdir();
        }
        OutputStream out = null;
     try {
-        File beanFile =  new File(file.getAbsolutePath()+File.separator+meta.getDaoName()+"Mapper.java");
+        File beanFile =  new File(file.getAbsolutePath()+File.separator+meta.getDaoName()+".java");
         if(!beanFile.exists()){
             beanFile.createNewFile();
         }

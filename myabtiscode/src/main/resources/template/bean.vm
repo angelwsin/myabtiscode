@@ -1,8 +1,13 @@
 
 
-package ${classMeta.beanPackage};
+package ${classMeta.getBeanImportPackage()};
 
-public class ${classMeta.beanName} {
+#foreach($field in $!classMeta.getBeanImportsPackage())
+   
+import   $!{field};
+#end
+
+public class ${classMeta.getBeanName()} {
 
   
 #foreach($field in $!classMeta.columResult)

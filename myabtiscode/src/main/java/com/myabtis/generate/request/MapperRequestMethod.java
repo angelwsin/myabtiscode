@@ -6,7 +6,7 @@ import com.myabtis.generate.result.MapperResult;
 
 public class MapperRequestMethod {
     
-   private MapperParamter paramter;
+   private MapperParamter paramter = new MapperParamter();
     
     private MapperResult   result;
     
@@ -16,9 +16,8 @@ public class MapperRequestMethod {
     
     
 
-    public MapperRequestMethod(MapperParamter paramter, MapperResult result, String methodName,
+    public MapperRequestMethod( MapperResult result, String methodName,
                                SqlCommandType sqlCommandType) {
-        this.paramter = paramter;
         this.result = result;
         this.methodName = methodName;
         this.sqlCommandType = sqlCommandType;
@@ -56,6 +55,10 @@ public class MapperRequestMethod {
         this.sqlCommandType = sqlCommandType;
     }
 
+    public MapperRequestMethod putParamter(String paramClass,String argsName){
+    	 this.paramter.put(paramClass, argsName);
+    	 return this;
+    }
     
     
 }

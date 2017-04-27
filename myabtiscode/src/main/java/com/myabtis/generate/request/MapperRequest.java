@@ -2,7 +2,12 @@ package com.myabtis.generate.request;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import org.apache.commons.lang.StringUtils;
 
 import com.myabtis.generate.result.TableColumResult;
 
@@ -18,10 +23,6 @@ public class MapperRequest {
     private String         tableName;
     
     private String         mapperPackage;
-    
-    private String         daoName;
-    
-    private String         beanName;
     
     private String         beanPackage;
     
@@ -54,21 +55,48 @@ public class MapperRequest {
     }
 
     public String getDaoName() {
-        return daoName;
+    	Optional<String> op = Optional.of(this.mapperPackage);
+    	int index = op.get().lastIndexOf('.');
+        return op.get().substring(index+1);
     }
 
-    public void setDaoName(String daoName) {
-        this.daoName = daoName;
-    }
-
+  
     public String getBeanName() {
-        return beanName;
+    	Optional<String> op = Optional.of(this.beanPackage);
+    	int index = op.get().lastIndexOf('.');
+        return op.get().substring(index+1);
+    }
+    
+    public String getBeanImportPackage() {
+    	Optional<String> op = Optional.of(this.beanPackage);
+    	int index = op.get().lastIndexOf('.');
+        return op.get().substring(0,index);
+    }
+    public  Set<String> getBeanImportsPackage() {
+    	 Set<String> imports = new HashSet<>();
+    	 columResult.stream().forEach(res->{
+    		  if(!res.getColumnClass().contains("java.lang.")){
+    			  imports.add(res.getColumnClass());
+    		  }
+    	 });
+    	return imports;
     }
 
-    public void setBeanName(String beanName) {
-        this.beanName = beanName;
+    public Set<String> getMapperImportsPackage() {
+    	 Set<String> imports = new HashSet<>();
+    	 imports.add(this.beanPackage);
+    	 methodes.stream().forEach(methods->{
+    		 if(StringUtils.isNotEmpty(methods.getResult().getResultImport())){
+    			 imports.add(methods.getResult().getResultImport());
+    		 }
+    	 });
+    	 return imports;
     }
-
+    public String getMapperImportPackage() {
+    	Optional<String> op = Optional.of(this.mapperPackage);
+    	int index = op.get().lastIndexOf('.');
+        return op.get().substring(0,index);
+    }
     public String getBeanPackage() {
         return beanPackage;
     }

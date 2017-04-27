@@ -1,5 +1,8 @@
 package com.myabtis.generate.result;
 
+import java.util.List;
+import java.util.Map;
+
 import com.java.util.ResultType;
 
 public class MapperResult{
@@ -61,29 +64,51 @@ public class MapperResult{
 
   
     public String getResultStr() {
-        switch (resultType) {
-            case Void:
-                
-            return "void";
-            case Many:
-                
-                return  String.format("List<%s>", valueClass);
-             case Map:
+		switch (resultType) {
+		case Void:
+
+			return "void";
+		case Many:
+
+			return String.format("List<%s>", valueClass);
+		case Map:
+
+			return String.format("Map<%s,%s>", keyClass, valueClass);
+		case Cursor:
+
+			return String.format("Cursor<%s>", valueClass);
+		case One:
+
+			return valueClass;
+		}
+		return "void";
+    }
     
-                 return  String.format("Map<%s,%s>",keyClass, valueClass);
-             case Cursor:
-    
-                 return String.format("Cursor<%s>", valueClass); 
-              case One:
-    
-                return valueClass;
-        }
-        return "void";
+    public String getResultImport() {
+		switch (resultType) {
+		case Void:
+
+			return null;
+		case Many:
+
+			return List.class.getName();
+		case Map:
+
+			return Map.class.getName();
+		case Cursor:
+
+			return String.format("Cursor<%s>", valueClass);
+		case One:
+
+			return valueClass;
+		}
+		return null;
     }
 
     
-    public static void main(String[] args) {
-       
+    public static void main(String[] args) throws Exception{
+           String clazz = "User";
+           Class.forName(clazz);
     }
     
     

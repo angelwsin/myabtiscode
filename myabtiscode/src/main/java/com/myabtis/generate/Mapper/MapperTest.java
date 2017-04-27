@@ -24,14 +24,11 @@ public class MapperTest {
         SqlSessionFactory sqlSessionFactory =    new SqlSessionFactoryBuilder().build(is);
         GenerateMapperService gen  = new GenerateMapperServiceImpl(sqlSessionFactory);
         MapperRequest request = new MapperRequest();
-        request.setBeanName("User");
-        request.setBeanPackage("com.java.bean");
+        request.setBeanPackage("com.java.bean.User");
         request.setTableName("user");
-        request.setMapperPackage("com.java.mapper");
-        request.setDaoName("User");
-        MapperParamter pa = new MapperParamter();
-        pa.put("User", "user");
-        MapperRequestMethod method = new MapperRequestMethod(pa,new MapperResult(ResultType.Many, "User"), "getUsers", SqlCommandType.SELECT);
+        request.setMapperPackage("com.java.mapper.UserMapper");
+        MapperRequestMethod method = new MapperRequestMethod(new MapperResult(ResultType.Many, "User"), "getUsers", SqlCommandType.SELECT);
+        method.putParamter("User", "user");
         request.addMapperMethod(method);
         gen.generateMapper(request);
         

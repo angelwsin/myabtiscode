@@ -2,11 +2,13 @@ package com.myabtis.generate.request;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class MapperParamter  extends HashMap<String, String>{
 
     /**  */
     private static final long serialVersionUID = 1L;
+    
     
     
     
@@ -20,6 +22,8 @@ public class MapperParamter  extends HashMap<String, String>{
        }
        return str.toString();
     }
+    
+    
     
    
      

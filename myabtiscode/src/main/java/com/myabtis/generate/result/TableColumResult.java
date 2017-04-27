@@ -42,6 +42,10 @@ public class TableColumResult {
     public String getColumnClassName() {
         return columnClassName.replace("java.lang.", "");
     }
+    
+    public String getColumnClass(){
+    	return this.columnClassName;
+    }
 
     public void setColumnClassName(String columnClassName) {
         this.columnClassName = columnClassName;
