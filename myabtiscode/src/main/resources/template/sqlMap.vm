@@ -13,7 +13,7 @@
        #foreach($field in $!classMeta.fieldList)
          $!{field.columnName}#if($foreach.hasNext),#end $empty
        #end
-       ) 
+       )  
        values(
        #foreach($field in $!classMeta.fieldList)
          #{$!{field.columnName}}#if($foreach.hasNext),#end $empty
