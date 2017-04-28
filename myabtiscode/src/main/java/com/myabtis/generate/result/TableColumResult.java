@@ -1,6 +1,11 @@
 package com.myabtis.generate.result;
 
+import com.java.util.StringUtils;
+
+
 public class TableColumResult {
+    
+    private final static String auto_increment = "auto_increment";
     
     private String columnName;
     
@@ -9,6 +14,8 @@ public class TableColumResult {
     private String columnComment;
     
     private int columnType;
+    
+    private String extra;
     
     private String columnClassName;
 
@@ -29,7 +36,14 @@ public class TableColumResult {
         this.columnComment = columnComment;
     }
 
+    public String getFieldName(){
+        return StringUtils.getTableColField(this.columnName);
+    }
     
+    
+    public String getMethodName(){
+        return StringUtils.getTableNameClass(this.columnName);
+    }
 
     public int getColumnType() {
         return columnType;
@@ -40,11 +54,17 @@ public class TableColumResult {
     }
 
     public String getColumnClassName() {
-        return columnClassName.replace("java.lang.", "");
+        return this.columnClassName;
     }
     
     public String getColumnClass(){
-    	return this.columnClassName;
+        Class<?> clazz = null ;
+        try {
+          clazz=   Class.forName(this.columnClassName);
+        } catch (ClassNotFoundException e) {
+            return this.columnClassName;
+        }
+    	return clazz.getSimpleName();
     }
 
     public void setColumnClassName(String columnClassName) {
@@ -60,13 +80,30 @@ public class TableColumResult {
         this.dataType = dataType;
     }
 
+    
+
     @Override
     public String toString() {
         return "TableColumResult [columnName=" + columnName + ", dataType=" + dataType
-               + ", columnComment=" + columnComment + ", columnType=" + columnType
-               + ", columnClassName=" + columnClassName + "]";
+               + ", columnComment=" + columnComment + ", columnType=" + columnType + ", extra="
+               + extra + ", columnClassName=" + columnClassName + "]";
     }
 
+    public static void main(String[] args)throws Exception {
+        
+    }
+
+    public String getExtra() {
+        return extra;
+    }
+
+    public void setExtra(String extra) {
+        this.extra = extra;
+    }
+    
+    public boolean isAutoInc(){
+         return auto_increment.equals(this.extra);
+    }
    
 
 }

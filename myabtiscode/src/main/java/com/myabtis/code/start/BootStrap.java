@@ -6,6 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import com.java.bean.User;
+import com.java.mapper.UserMapper;
+
 
 public class BootStrap {
     
@@ -66,7 +69,7 @@ public class BootStrap {
          *    2)sqlMap.xml解析
          *    XMLMapperBuilder.configurationElement(XNode)
          *    XMLStatementBuilder.parseStatementNode()
-         *    
+         *    XMLScriptBuilder.parseDynamicTags(XNode) 动态标签
          *    
          *    
          *    ------------------
@@ -90,6 +93,12 @@ public class BootStrap {
          */      
         //根据不同的参数 sqlSessionFactory 创建不同的session
         SqlSession session = sqlSessionFactory.openSession(false);
+        UserMapper  uMapper= session.getMapper(UserMapper.class);
+        User u = uMapper.getUserById(90);
+         System.out.println(u.getName());
+         u.setName("zhangxiaofan");
+         uMapper.updateUser(u);
+        session.commit();
        
     }
 

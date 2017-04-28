@@ -28,11 +28,10 @@
        </environment>  
     </environments>  
     <mappers>  
-     <!-- <package name="com.myabtis.generate.Mapper"/> -->
+     <package name="com.myabtis.generate.Mapper"/>
     
        <!-- <mapper resource="sqlMap/userSqlMap.xml"/>
        <mapper resource="sqlMap/Menu-sqlMap.xml"/> -->
       <!--  <package name="com.tiantian.mybatis.mapperinterface"/>   -->
-       <mapper resource="sqlMap/User-sqlMap.xml"/> 
     </mappers> 
 </configuration>

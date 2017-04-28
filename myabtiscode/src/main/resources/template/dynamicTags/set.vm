@@ -1,0 +1,5 @@
+ <set>
+    #foreach($field in $!sqlMeta.columResult)
+    <if test="$!{field.getFieldName()}!=null">$!{field.columnName} = #{$!{field.getFieldName()}}#if($velocityCount !=$!sqlMeta.columResult.size()),#end </if>
+    #end
+</set>

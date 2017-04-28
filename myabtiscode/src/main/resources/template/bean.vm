@@ -12,8 +12,18 @@ public class ${classMeta.getBeanName()} {
   
 #foreach($field in $!classMeta.columResult)
    
-private   $!{field.columnClassName}   $!{field.columnName};
+private   $!{field.columnClassName}   $!{field.getFieldName()};
 #end
+ 
+
+#foreach($field in $!classMeta.columResult)
    
+public $!{field.columnClassName}   get$!{field.getMethodName()}(){
+       return this.$!{field.columnName};
+}
+public  void  set$!{field.getMethodName()}($!{field.getColumnClass()} $!{field.getFieldName()}){
+       this.$!{field.columnName} = $!{field.columnName};
+}
+#end  
 
 }

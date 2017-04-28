@@ -3,6 +3,8 @@ package com.myabtis.generate.result;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.cursor.Cursor;
+
 import com.java.util.ResultType;
 
 public class MapperResult{
@@ -67,7 +69,7 @@ public class MapperResult{
 		switch (resultType) {
 		case Void:
 
-			return "void";
+			return "Void";
 		case Many:
 
 			return String.format("List<%s>", valueClass);
@@ -88,7 +90,7 @@ public class MapperResult{
 		switch (resultType) {
 		case Void:
 
-			return null;
+			return "Void";
 		case Many:
 
 			return List.class.getName();
@@ -97,12 +99,12 @@ public class MapperResult{
 			return Map.class.getName();
 		case Cursor:
 
-			return String.format("Cursor<%s>", valueClass);
+			return Cursor.class.getName();
 		case One:
 
 			return valueClass;
 		}
-		return null;
+		return "void";
     }
 
     

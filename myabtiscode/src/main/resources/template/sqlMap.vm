@@ -1,43 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper  
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    
-<mapper namespace="${sqlMeta.mapper}.${sqlMeta.beanName}Mapper">  
-
-#set($empty=" ")    
-    
-    <insert id="insert${sqlMeta.beanName}" parameterType="${sqlMeta.beanClazz}" useGeneratedKeys="true" keyColumn="id">  
-       insert into
-       ${sqlMeta.tableName}(
-       #foreach($field in $!classMeta.fieldList)
-         $!{field.columnName}#if($foreach.hasNext),#end $empty
-       #end
-       )  
-       values(
-       #foreach($field in $!classMeta.fieldList)
-         #{$!{field.columnName}}#if($foreach.hasNext),#end $empty
-       #end
-       )
-    </insert>
-     
-    <update id="update${sqlMeta.beanName}" parameterType="${sqlMeta.beanClazz}">  
-       update ${sqlMeta.tableName} set 
-       #foreach($field in $!classMeta.fieldList)
-         $!{field.columnName}=#{$!{field.columnName}}#if($foreach.hasNext),#end $empty
-       #end
-    </update> 
-
-    <delete id="delete${sqlMeta.beanName}" parameterType="${sqlMeta.beanClazz}">  
-       delete from ${sqlMeta.tableName} 
-    </delete>
-    
-    <select id="select${sqlMeta.beanName}" parameterType="${sqlMeta.beanClazz}" resultType="${sqlMeta.beanClazz}">  
-       select * from ${sqlMeta.tableName}
-    </select>
-    
-    <select id="select${sqlMeta.beanName}s" parameterType="${sqlMeta.beanClazz}" resultType="${sqlMeta.beanClazz}">  
-       select * from ${sqlMeta.tableName}
-    </select>
-    
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${sqlMeta.mapperPackage}">  
+    #set($empty=" ")
+    #foreach($field in $!sqlMeta.methodes)
+        #if("INSERT"==$!{field.sqlCommandType})
+            <insert id="$!{field.methodName}" parameterType="${sqlMeta.beanPackage}" useGeneratedKeys="true" keyColumn="id">  
+                insert into
+                ${sqlMeta.tableName}(
+                #foreach($field in $!sqlMeta.columResult)
+                    #if(!${field.isAutoInc()})
+                    $!{field.columnName}#if($velocityCount != $!sqlMeta.columResult.size()),#end $empty
+                    #end
+                #end
+                )  
+                values(
+                #foreach($field in $!sqlMeta.columResult)
+                     #if(!${field.isAutoInc()})
+                     #{$!{field.getFieldName()}}#if($velocityCount != $!sqlMeta.columResult.size()),#end $empty
+                     #end
+                #end
+                )
+            </insert>
+        #elseif("UPDATE"==$!{field.sqlCommandType})
+            <update id="update${sqlMeta.beanName}" parameterType="${sqlMeta.beanPackage}">  
+                update ${sqlMeta.tableName} 
+                #parse("template/dynamicTags/set.vm") 
+                #parse("template/dynamicTags/where.vm")
+            </update>
+        #elseif("DELETE"==$!{field.sqlCommandType})
+            <delete id="delete${sqlMeta.beanName}" parameterType="${sqlMeta.beanPackage}">  
+                delete from ${sqlMeta.tableName}
+                #parse("template/dynamicTags/where.vm") 
+            </delete>
+        #elseif("SELECT"==$!{field.sqlCommandType})  
+            <select id="$!{field.methodName}" parameterType="${sqlMeta.beanPackage}" resultType="${sqlMeta.beanPackage}">  
+                select 
+                #foreach($field in $!sqlMeta.columResult)
+                    $!{field.columnName} as '$!{field.getFieldName()}'#if($velocityCount != $!sqlMeta.columResult.size()),#end $empty
+                #end
+                from ${sqlMeta.tableName}
+                #parse("template/dynamicTags/where.vm")
+            </select>
+        #else
+        #end
+    #end 
 </mapper>

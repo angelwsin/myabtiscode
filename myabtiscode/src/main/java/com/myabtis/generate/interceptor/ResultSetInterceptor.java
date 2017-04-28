@@ -98,7 +98,7 @@ public class ResultSetInterceptor implements Interceptor{
     }
     
     
-    
+    //类型   MysqlDefs
    
    
 

@@ -9,12 +9,13 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.java.util.JavaLangType;
 import com.myabtis.generate.result.TableColumResult;
 
 public class MapperRequest {
     
     
-    
+    private JavaLangType              langType = new JavaLangType();
     private List<MapperRequestMethod> methodes = new ArrayList<MapperRequestMethod>();
     
     private List<TableColumResult> columResult;
@@ -75,8 +76,8 @@ public class MapperRequest {
     public  Set<String> getBeanImportsPackage() {
     	 Set<String> imports = new HashSet<>();
     	 columResult.stream().forEach(res->{
-    		  if(!res.getColumnClass().contains("java.lang.")){
-    			  imports.add(res.getColumnClass());
+    		  if(!langType.isExist(res.getColumnClassName())){
+    			  imports.add(res.getColumnClassName());
     		  }
     	 });
     	return imports;
@@ -85,8 +86,9 @@ public class MapperRequest {
     public Set<String> getMapperImportsPackage() {
     	 Set<String> imports = new HashSet<>();
     	 imports.add(this.beanPackage);
+    	 langType.registerAlias(this.getBeanName(), this.beanPackage);
     	 methodes.stream().forEach(methods->{
-    		 if(StringUtils.isNotEmpty(methods.getResult().getResultImport())){
+    		 if(!langType.isExist(methods.getResult().getResultImport())){
     			 imports.add(methods.getResult().getResultImport());
     		 }
     	 });

@@ -1,0 +1,3 @@
+<if test="$!{field.getFieldName()}!=null">
+#if($velocityCount !=1)and#end  $!{field.columnName} = #{$!{field.getFieldName()}}
+</if>

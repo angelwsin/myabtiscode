@@ -65,7 +65,7 @@ public class GenBeanFactory {
       
     }
     
-    public static void genSqlMap(MapperRequest meta,VelocityContext  context){
+    public static void genSqlMap(MapperRequest meta){
         InputStream read = Thread.currentThread().getContextClassLoader().getResourceAsStream("template/sqlMap.vm");
         //
        File file =   new File(meta.getDestPath()+meta.getSqlMapPath());
@@ -80,6 +80,8 @@ public class GenBeanFactory {
             beanFile.createNewFile();
         }
         out = new FileOutputStream(beanFile);
+        VelocityContext  context = new VelocityContext();
+        context.put("sqlMeta", meta);
         Writer w =  new OutputStreamWriter(out);
         Velocity.evaluate(context,w , "", new InputStreamReader(read));
         w.close();

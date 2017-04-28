@@ -38,6 +38,7 @@ public class GenerateMapperServiceImpl implements GenerateMapperService{
         request.setColumResult(columResult);
         GenBeanFactory.genBean(request);
         GenBeanFactory.genMapper(request);
+        GenBeanFactory.genSqlMap(request);
     }
     
     
