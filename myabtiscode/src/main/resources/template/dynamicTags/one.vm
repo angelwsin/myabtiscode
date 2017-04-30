@@ -1,0 +1,8 @@
+#set($index = 0)
+where
+ #foreach($field in $!sqlMeta.columResult)
+	 #if($field.isPriKey())
+	 #set($index = $index+1)
+     #if($index !=1)and#end  $!{field.columnName} = #{$!{field.getFieldName()}}
+	#end
+#end

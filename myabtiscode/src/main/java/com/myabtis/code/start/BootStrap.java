@@ -1,13 +1,17 @@
 package com.myabtis.code.start;
 
 import java.io.InputStream;
+import java.util.Date;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import com.java.bean.User;
+import com.java.bean.Users;
 import com.java.mapper.UserMapper;
+import com.java.mapper.UsersMapper;
 
 
 public class BootStrap {
@@ -90,14 +94,39 @@ public class BootStrap {
          *     根据Transaction 事务管理器得到数据库的Connection
          *     PreparedStatement参数的填充
          *     PreparedStatementHandler.parameterize(Statement)
+         *     
+         *     调用方法封装成MapperMethod来调用
+         *     接口方法和 MappedStatement 匹配通过 
+         *      String statementName = mapperInterface.getName() + "." + method.getName();
+         *      和 MappedStatement 的id 匹配
+         *      方法签名的匹配MethodSignature(Configuration, Class<?>, Method)
          */      
         //根据不同的参数 sqlSessionFactory 创建不同的session
         SqlSession session = sqlSessionFactory.openSession(false);
         UserMapper  uMapper= session.getMapper(UserMapper.class);
-        User u = uMapper.getUserById(90);
+        User i = new User();
+        i.setName("zha");
+        uMapper.insertUser(i);
+        User u = uMapper.getUserById(1);
          System.out.println(u.getName());
-         u.setName("zhangxiaofan");
-         uMapper.updateUser(u);
+         u.setName("zf");
+        int c = uMapper.updateUser(u);
+        System.out.println(c);
+        List<User> user = uMapper.getUser(i, 0, 1);
+        System.out.println(user.get(0).getName());
+        System.out.println(uMapper.getUserCount(i));
+        
+        UsersMapper  usMapper= session.getMapper(UsersMapper.class);
+        Users rs = new Users();
+        rs.setAddTime(new Date());
+        rs.setBindStatus(0);
+        rs.setEmail("97799@165.com");
+        rs.setPassword("843434");
+        rs.setPhone("9409304930");
+        rs.setStatus(0);
+        rs.setUsername("zfenfen");
+        rs.setId("9opodpsods");
+        usMapper.insertUsers(rs);
         session.commit();
        
     }

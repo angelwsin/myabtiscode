@@ -6,12 +6,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     #set($empty=" ")
     #foreach($field in $!sqlMeta.methodes)
         #if("INSERT"==$!{field.sqlCommandType})
-            <insert id="$!{field.methodName}" parameterType="${sqlMeta.beanPackage}" useGeneratedKeys="true" keyColumn="id">  
+            <insert id="$!{field.methodName}"   useGeneratedKeys="true" keyColumn="id">  
                 insert into
                 ${sqlMeta.tableName}(
                 #foreach($field in $!sqlMeta.columResult)
                     #if(!${field.isAutoInc()})
-                    $!{field.columnName}#if($velocityCount != $!sqlMeta.columResult.size()),#end $empty
+                    $!{field.columnName}#if($velocityCount != $!sqlMeta.columResult.size()),#end$empty
                     #end
                 #end
                 )  
@@ -24,26 +24,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 )
             </insert>
         #elseif("UPDATE"==$!{field.sqlCommandType})
-            <update id="update${sqlMeta.beanName}" parameterType="${sqlMeta.beanPackage}">  
+            <update id="$!{field.methodName}"  >  
                 update ${sqlMeta.tableName} 
                 #parse("template/dynamicTags/set.vm") 
-                #parse("template/dynamicTags/where.vm")
             </update>
         #elseif("DELETE"==$!{field.sqlCommandType})
-            <delete id="delete${sqlMeta.beanName}" parameterType="${sqlMeta.beanPackage}">  
+            <delete id="$!{field.methodName}" >  
                 delete from ${sqlMeta.tableName}
-                #parse("template/dynamicTags/where.vm") 
+                #parse("template/dynamicTags/one.vm") 
             </delete>
-        #elseif("SELECT"==$!{field.sqlCommandType})  
-            <select id="$!{field.methodName}" parameterType="${sqlMeta.beanPackage}" resultType="${sqlMeta.beanPackage}">  
+        #elseif("SELECT"==$!{field.sqlCommandType})
+			#if($!{field.isCount()})
+	      <select id="$!{field.methodName}"  resultType="Long">
+			select count(0)  from ${sqlMeta.tableName}
+			#parse("template/dynamicTags/where.vm")
+          </select>
+		   #else
+            <select id="$!{field.methodName}"  resultType="$!sqlMeta.beanPackage">  
                 select 
                 #foreach($field in $!sqlMeta.columResult)
-                    $!{field.columnName} as '$!{field.getFieldName()}'#if($velocityCount != $!sqlMeta.columResult.size()),#end $empty
+               $!{field.columnName} as '$!{field.getFieldName()}'#if($velocityCount != $!sqlMeta.columResult.size()),#end $empty
                 #end
                 from ${sqlMeta.tableName}
+				 #if("One"==$!{field.result.resultType})
+				#parse("template/dynamicTags/one.vm")
+			    #else
                 #parse("template/dynamicTags/where.vm")
+				#parse("template/dynamicTags/limit.vm")
+				 #end
             </select>
-        #else
-        #end
+			#end
+        #end			
     #end 
 </mapper>

@@ -4,7 +4,7 @@ import org.apache.ibatis.mapping.SqlCommandType;
 
 import com.myabtis.generate.result.MapperResult;
 
-public class MapperRequestMethod {
+public class MapperRequestMethod  extends MapperRequestComm{
     
    private MapperParamter paramter = new MapperParamter();
     
@@ -14,16 +14,39 @@ public class MapperRequestMethod {
     
     private SqlCommandType sqlCommandType;
     
+    private String         mapperPackage;
+    
+    private boolean    limit = false;
+    
+    private boolean    count = false;
+    
     
 
-    public MapperRequestMethod( MapperResult result, String methodName,
+    public String getMapperPackage() {
+		return mapperPackage;
+	}
+
+
+	public void setMapperPackage(String mapperPackage) {
+		this.mapperPackage = mapperPackage;
+	}
+
+
+	public MapperRequestMethod( MapperResult result, String methodName,
                                SqlCommandType sqlCommandType) {
         this.result = result;
         this.methodName = methodName;
         this.sqlCommandType = sqlCommandType;
     }
+    
+    
+    public MapperRequestMethod(String methodName, SqlCommandType sqlCommandType) {
+		this.methodName = methodName;
+		this.sqlCommandType = sqlCommandType;
+	}
 
-    public MapperParamter getParamter() {
+
+	public MapperParamter getParamter() {
         return paramter;
     }
 
@@ -59,6 +82,26 @@ public class MapperRequestMethod {
     	 this.paramter.put(paramClass, argsName);
     	 return this;
     }
+
+
+	public boolean isLimit() {
+		return limit;
+	}
+
+
+	public void setLimit(boolean limit) {
+		this.limit = limit;
+	}
+
+
+	public boolean isCount() {
+		return count;
+	}
+
+
+	public void setCount(boolean count) {
+		this.count = count;
+	}
     
     
 }

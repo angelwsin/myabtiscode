@@ -1,5 +1,5 @@
 <where> 
-    #foreach($field in $!sqlMeta.columResult)
+    #foreach($result in $!sqlMeta.columResult)
     #parse("template/dynamicTags/if.vm")
     #end
 </where>

@@ -2,7 +2,7 @@
 
 package ${classMeta.getBeanImportPackage()};
 
-#foreach($field in $!classMeta.getBeanImportsPackage())
+#foreach($field in $!{classMeta.getBeanImportsPackage()})
    
 import   $!{field};
 #end
@@ -10,15 +10,11 @@ import   $!{field};
 public class ${classMeta.getBeanName()} {
 
   
-#foreach($field in $!classMeta.columResult)
-   
-private   $!{field.columnClassName}   $!{field.getFieldName()};
+#foreach($field in $!{classMeta.columResult})
+private   $!{field.getColumnClass()}   $!{field.getFieldName()};
 #end
- 
-
-#foreach($field in $!classMeta.columResult)
-   
-public $!{field.columnClassName}   get$!{field.getMethodName()}(){
+#foreach($field in $!{classMeta.columResult})
+public $!{field.getColumnClass()}   get$!{field.getMethodName()}(){
        return this.$!{field.columnName};
 }
 public  void  set$!{field.getMethodName()}($!{field.getColumnClass()} $!{field.getFieldName()}){

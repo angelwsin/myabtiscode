@@ -13,7 +13,7 @@ public interface MysqlMapper {
     
      
     
-     @Select("select column_name columnName,data_type dataType,column_comment columnComment,extra extra  from information_schema.columns where table_name =#{tableName}  and table_schema =#{schema}")
+     @Select("select column_name columnName,data_type dataType,column_comment columnComment,extra extra,column_key columnKey  from information_schema.columns where table_name =#{tableName}  and table_schema =#{schema}")
      @ResultType(TableColumResult.class)
      public List<TableColumResult>   getTableColum(@Param("tableName")String tableName,@Param("schema")String schema);
      

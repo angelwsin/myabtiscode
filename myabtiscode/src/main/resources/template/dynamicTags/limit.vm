@@ -1,0 +1,9 @@
+#if($!{field.isLimit()})
+<if test="rows!=null">
+				limit
+		<if test="offset!=null">
+				#{offset},
+			</if>
+				#{rows}
+</if>
+#end

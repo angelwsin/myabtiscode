@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper  
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java.mapper.UsersMapper">  
+                            <delete id="deleteUsersById" >  
+                delete from users
+                where
+ 	        id = #{id}
+		 	 	 	 	 	 	             </delete>
+                                <insert id="insertUsers"   useGeneratedKeys="true" keyColumn="id">  
+                insert into
+                users(
+                                                        id, 
+                                                                            email, 
+                                                                            password, 
+                                                                            status, 
+                                                                            username, 
+                                                                            addTime, 
+                                                                            bindStatus, 
+                                                                            phone 
+                                                    )  
+                values(
+                                                          #{id},  
+                                                                               #{email},  
+                                                                               #{password},  
+                                                                               #{status},  
+                                                                               #{username},  
+                                                                               #{addTime},  
+                                                                               #{bindStatus},  
+                                                                               #{phone}  
+                                                     )
+            </insert>
+                    				      <select id="getUsersCount"  resultType="Long">
+			select count(0)  from users
+			<where> 
+        <if test="id!=null">
+  id = #{id}
+</if>
+
+        <if test="email!=null">
+and  email = #{email}
+</if>
+
+        <if test="password!=null">
+and  password = #{password}
+</if>
+
+        <if test="status!=null">
+and  status = #{status}
+</if>
+
+        <if test="username!=null">
+and  username = #{username}
+</if>
+
+        <if test="addTime!=null">
+and  addTime = #{addTime}
+</if>
+
+        <if test="bindStatus!=null">
+and  bindStatus = #{bindStatus}
+</if>
+
+        <if test="phone!=null">
+and  phone = #{phone}
+</if>
+
+    </where>
+          </select>
+		                       			            <select id="getUsers"  resultType="com.java.bean.Users">  
+                select 
+                               id as 'id',  
+                               email as 'email',  
+                               password as 'password',  
+                               status as 'status',  
+                               username as 'username',  
+                               addTime as 'addTime',  
+                               bindStatus as 'bindStatus',  
+                               phone as 'phone'  
+                                from users
+				                 <where> 
+        <if test="users.id!=null">
+  id = #{users.id}
+</if>
+
+        <if test="users.email!=null">
+and  email = #{users.email}
+</if>
+
+        <if test="users.password!=null">
+and  password = #{users.password}
+</if>
+
+        <if test="users.status!=null">
+and  status = #{users.status}
+</if>
+
+        <if test="users.username!=null">
+and  username = #{users.username}
+</if>
+
+        <if test="users.addTime!=null">
+and  addTime = #{users.addTime}
+</if>
+
+        <if test="users.bindStatus!=null">
+and  bindStatus = #{users.bindStatus}
+</if>
+
+        <if test="users.phone!=null">
+and  phone = #{users.phone}
+</if>
+
+    </where>
+				<if test="rows!=null">
+				limit
+		<if test="offset!=null">
+				#{offset},
+			</if>
+				#{rows}
+</if>
+				             </select>
+			                    			            <select id="getUsersById"  resultType="com.java.bean.Users">  
+                select 
+                               id as 'id',  
+                               email as 'email',  
+                               password as 'password',  
+                               status as 'status',  
+                               username as 'username',  
+                               addTime as 'addTime',  
+                               bindStatus as 'bindStatus',  
+                               phone as 'phone'  
+                                from users
+				 				where
+ 	        id = #{id}
+		 	 	 	 	 	 	 			                </select>
+			                                <update id="updateUsers"  >  
+                update users 
+                 <set>
+    	     	     <if test="email!=null">email = #{email}, </if>
+	    	     <if test="password!=null">password = #{password}, </if>
+	    	     <if test="status!=null">status = #{status}, </if>
+	    	     <if test="username!=null">username = #{username}, </if>
+	    	     <if test="addTime!=null">addTime = #{addTime}, </if>
+	    	     <if test="bindStatus!=null">bindStatus = #{bindStatus}, </if>
+	    	     <if test="phone!=null">phone = #{phone} </if>
+	    </set>
+where
+ 	        id = #{id}
+	    	     	     	     	     	     	     	                 </update>
+            </mapper>

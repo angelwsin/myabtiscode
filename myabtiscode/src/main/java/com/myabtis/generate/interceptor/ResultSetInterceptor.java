@@ -3,6 +3,8 @@ package com.myabtis.generate.interceptor;
 import java.sql.Connection;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
+import java.sql.Types;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -60,8 +62,9 @@ public class ResultSetInterceptor implements Interceptor{
                      for (int i = 1; i <= columnCount; i++) {
                          try {
                             if(r.getColumnName().equalsIgnoreCase(metaData.getColumnName(i))){
-                                 r.setColumnClassName(metaData.getColumnClassName(i));
-                                 r.setColumnType(metaData.getColumnType(i));
+                            	r.setColumnType(metaData.getColumnType(i));
+                                 r.setColumnClassName(filterType(r.getColumnType(),metaData.getColumnClassName(i)));
+                                 
                                  break;
                              }
                         } catch (Exception e) {
@@ -100,6 +103,12 @@ public class ResultSetInterceptor implements Interceptor{
     
     //类型   MysqlDefs
    
-   
+   private String  filterType(int type,String clazz){
+	    switch (type) {
+		case Types.TIMESTAMP:
+			 return Date.class.getName();
+		}
+	    return clazz;
+   }
 
 }

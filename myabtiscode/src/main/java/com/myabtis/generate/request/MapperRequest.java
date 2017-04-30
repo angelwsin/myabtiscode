@@ -7,15 +7,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.ibatis.annotations.Param;
 
 import com.java.util.JavaLangType;
+import com.java.util.StringUtils;
 import com.myabtis.generate.result.TableColumResult;
 
 public class MapperRequest {
     
     
-    private JavaLangType              langType = new JavaLangType();
+    private  JavaLangType              langType = new JavaLangType();
     private List<MapperRequestMethod> methodes = new ArrayList<MapperRequestMethod>();
     
     private List<TableColumResult> columResult;
@@ -68,6 +69,12 @@ public class MapperRequest {
         return op.get().substring(index+1);
     }
     
+    public String getBeanArgsName() {
+    	Optional<String> op = Optional.of(this.beanPackage);
+    	int index = op.get().lastIndexOf('.');
+        return StringUtils.firstCharLowerCase(op.get().substring(index+1));
+    }
+    
     public String getBeanImportPackage() {
     	Optional<String> op = Optional.of(this.beanPackage);
     	int index = op.get().lastIndexOf('.');
@@ -90,6 +97,9 @@ public class MapperRequest {
     	 methodes.stream().forEach(methods->{
     		 if(!langType.isExist(methods.getResult().getResultImport())){
     			 imports.add(methods.getResult().getResultImport());
+    		 }
+    		 if(methods.isLimit()){
+    			 imports.add(Param.class.getName());
     		 }
     	 });
     	 return imports;

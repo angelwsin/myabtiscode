@@ -3,60 +3,70 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.java.mapper.UserMapper">  
-                            <select id="getUsers" parameterType="com.java.bean.User" resultType="com.java.bean.User">  
-                select 
-                                    id as 'id',  
-                                    name as 'name',  
-                                    age as 'age'  
-                                from user
-                <where> 
-        <if test="id!=null">
-  id = #{id}
-</if>        <if test="name!=null">
-and  name = #{name}
-</if>        <if test="age!=null">
-and  age = #{age}
-</if>    </where>
-            </select>
-                                <insert id="insertUser" parameterType="com.java.bean.User" useGeneratedKeys="true" keyColumn="id">  
+                            <insert id="insertUser"   useGeneratedKeys="true" keyColumn="id">  
                 insert into
                 user(
-                                                                                            name,  
-                                                                            age  
+                                                                                            name  
                                                     )  
                 values(
-                                                                                               #{name},  
-                                                                               #{age}  
+                                                                                               #{name}  
                                                      )
             </insert>
-                                <update id="updateUser" parameterType="com.java.bean.User">  
-                update user 
-                 <set>
-        <if test="id!=null">id = #{id}, </if>
-        <if test="name!=null">name = #{name}, </if>
-        <if test="age!=null">age = #{age} </if>
-    </set>                <where> 
-        <if test="id!=null">
-  id = #{id}
-</if>        <if test="name!=null">
-and  name = #{name}
-</if>        <if test="age!=null">
-and  age = #{age}
-</if>    </where>
-            </update>
-                                <select id="getUserById" parameterType="com.java.bean.User" resultType="com.java.bean.User">  
+                    			            <select id="getUserById"  resultType="com.java.bean.User">  
                 select 
                                     id as 'id',  
-                                    name as 'name',  
-                                    age as 'age'  
+                                    name as 'name'  
                                 from user
-                <where> 
+				 				where
+ 	        id = #{id}
+		 			                </select>
+			                    				      <select id="getUserCount"  resultType="Long">
+			select count(0)  from user
+			<where> 
         <if test="id!=null">
   id = #{id}
-</if>        <if test="name!=null">
+</if>
+
+        <if test="name!=null">
 and  name = #{name}
-</if>        <if test="age!=null">
-and  age = #{age}
-</if>    </where>
-            </select>
+</if>
+
+    </where>
+          </select>
+		                       			            <select id="getUser"  resultType="com.java.bean.User">  
+                select 
+                                    id as 'id',  
+                                    name as 'name'  
+                                from user
+				                 <where> 
+        <if test="user.id!=null">
+  id = #{user.id}
+</if>
+
+        <if test="user.name!=null">
+and  name = #{user.name}
+</if>
+
+    </where>
+				<if test="rows!=null">
+				limit
+		<if test="offset!=null">
+				#{offset},
+			</if>
+				#{rows}
+</if>
+				             </select>
+			                                <update id="updateUser"  >  
+                update user 
+                 <set>
+    	     	     <if test="name!=null">name = #{name} </if>
+	    </set>
+where
+ 	        id = #{id}
+	    	                 </update>
+                                <delete id="deleteUserById" >  
+                delete from user
+                where
+ 	        id = #{id}
+		             </delete>
             </mapper>

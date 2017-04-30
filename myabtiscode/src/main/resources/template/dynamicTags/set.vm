@@ -1,5 +1,15 @@
  <set>
     #foreach($field in $!sqlMeta.columResult)
+	 #if(!$field.isPriKey())
     <if test="$!{field.getFieldName()}!=null">$!{field.columnName} = #{$!{field.getFieldName()}}#if($velocityCount !=$!sqlMeta.columResult.size()),#end </if>
+	#end
     #end
 </set>
+#set($index = 0)
+where
+ #foreach($field in $!sqlMeta.columResult)
+	 #if($field.isPriKey())
+	 #set($index = $index+1)
+     #if($index !=1)and#end  $!{field.columnName} = #{$!{field.getFieldName()}}
+	#end
+    #end

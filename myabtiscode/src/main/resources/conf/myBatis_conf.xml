@@ -34,5 +34,6 @@
        <mapper resource="sqlMap/Menu-sqlMap.xml"/> -->
       <!--  <package name="com.tiantian.mybatis.mapperinterface"/>   -->
        <mapper resource="sqlMap/User-sqlMap.xml"/> 
+       <mapper resource="sqlMap/Users-sqlMap.xml"/>
     </mappers> 
 </configuration>

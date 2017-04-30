@@ -1,3 +1,10 @@
-<if test="$!{field.getFieldName()}!=null">
-#if($velocityCount !=1)and#end  $!{field.columnName} = #{$!{field.getFieldName()}}
+#if($!{field.isLimit()})
+<if test="$!{sqlMeta.getBeanArgsName()}.$!{result.getFieldName()}!=null">
+#if($velocityCount !=1)and#end  $!{result.columnName} = #{$!{sqlMeta.getBeanArgsName()}.$!{result.getFieldName()}}
 </if>
+#else
+<if test="$!{result.getFieldName()}!=null">
+#if($velocityCount !=1)and#end  $!{result.columnName} = #{$!{result.getFieldName()}}
+</if>
+#end
+

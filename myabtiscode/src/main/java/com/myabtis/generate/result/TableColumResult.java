@@ -1,11 +1,12 @@
 package com.myabtis.generate.result;
 
 import com.java.util.StringUtils;
+import com.myabtis.generate.request.MapperRequestComm;
 
 
-public class TableColumResult {
-    
+public class TableColumResult extends MapperRequestComm{
     private final static String auto_increment = "auto_increment";
+    private final static String PRI_KEY = "PRI";
     
     private String columnName;
     
@@ -18,6 +19,8 @@ public class TableColumResult {
     private String extra;
     
     private String columnClassName;
+    
+    private String columnKey;
 
     public String getColumnName() {
         return columnName;
@@ -37,7 +40,9 @@ public class TableColumResult {
     }
 
     public String getFieldName(){
-        return StringUtils.getTableColField(this.columnName);
+    	String field = StringUtils.getTableColField(this.columnName);
+    	 put(field, this.columnName);
+        return field;
     }
     
     
@@ -80,16 +85,14 @@ public class TableColumResult {
         this.dataType = dataType;
     }
 
-    
-
     @Override
-    public String toString() {
-        return "TableColumResult [columnName=" + columnName + ", dataType=" + dataType
-               + ", columnComment=" + columnComment + ", columnType=" + columnType + ", extra="
-               + extra + ", columnClassName=" + columnClassName + "]";
-    }
+	public String toString() {
+		return "TableColumResult [columnName=" + columnName + ", dataType=" + dataType + ", columnComment="
+				+ columnComment + ", columnType=" + columnType + ", extra=" + extra + ", columnClassName="
+				+ columnClassName + ", columnKey=" + columnKey + "]";
+	}
 
-    public static void main(String[] args)throws Exception {
+	public static void main(String[] args)throws Exception {
         
     }
 
@@ -104,6 +107,18 @@ public class TableColumResult {
     public boolean isAutoInc(){
          return auto_increment.equals(this.extra);
     }
+
+    public boolean isPriKey(){
+    	 return PRI_KEY.equals(this.columnKey);
+    }
+	public String getColumnKey() {
+		return columnKey;
+	}
+
+	public void setColumnKey(String columnKey) {
+		this.columnKey = columnKey;
+	}
    
+    
 
 }
